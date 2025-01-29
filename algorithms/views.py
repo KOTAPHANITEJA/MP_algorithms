@@ -10,6 +10,7 @@ import base64
 def home(request):
     return render(request, 'home.html')
 
+
 def parse_objective(objective_function):
     # Parse the objective function string and return coefficients
     # Example: "Z = 5x + 4y" -> [5, 4]
@@ -137,7 +138,6 @@ def graphical_method(request):
         return render(request, 'graphical_method.html', {'solution': solution, 'graph': graph})
     else:
         return render(request, 'graphical_method.html')
-    
 
 def simplex_method(request):
     return render(request, 'simplex_method.html')
