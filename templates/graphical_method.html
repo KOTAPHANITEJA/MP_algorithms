@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graphical Method</title>
+    <style>
+        .constraint { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Graphical Method</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="objective_function">Objective Function (e.g., Z = 5x + 4y):</label>
+        <input type="text" id="objective_function" name="objective_function" required><br><br>
+        <label for="maximize">Maximize:</label>
+        <input type="checkbox" id="maximize" name="maximize"><br><br>
+        <label for="constraints">Constraints:</label>
+        <div id="constraints">
+            <div class="constraint">
+                <input type="text" name="constraints[]" placeholder="e.g., 1x + 2y <= 20" required>
+                <button type="button" class="removeConstraint">Remove</button>
+            </div>
+        </div>
+        <button type="button" id="addConstraint">Add Constraint</button><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="solution">
+        {% if solution %}
+            <h3>Solution</h3>
+            <p>{{ solution }}</p>
+            <img src="data:image/png;base64,{{ graph }}" alt="Graph">
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById('addConstraint').addEventListener('click', function() {
+            var div = document.createElement('div');
+            div.className = 'constraint';
+            div.innerHTML = '<input type="text" name="constraints[]" placeholder="e.g., 1x + 2y <= 20" required> <button type="button" class="removeConstraint">Remove</button>';
+            document.getElementById('constraints').appendChild(div);
+        });
+
+        document.getElementById('constraints').addEventListener('click', function(e) {
+            if (e.target && e.target.className == 'removeConstraint') {
+                e.target.parentNode.remove();
+            }
+        });
+    </script>
+</body>
+</html>

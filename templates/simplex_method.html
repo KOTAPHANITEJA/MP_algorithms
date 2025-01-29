@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplex Method</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-8">Simplex Method Solver</h1>
+        <form id="graphicalForm" method="post" action="{% url 'simplex_method' %}"> class="bg-white shadow-md rounded-lg p-6 space-y-4">
+            {% csrf_token %}
+            <div>
+                <label for="objective" class="block font-medium">Objective Function (e.g., 3x + 5y):</label>
+                <input type="text" id="objective" name="objective" class="w-full p-2 border rounded" required>
+            </div>
+            <div id="constraints" class="space-y-2">
+                <label class="block font-medium">Constraints:</label>
+                <div class="flex space-x-2">
+                    <input type="text" name="constraints[]" placeholder="e.g., x + y <= 10" class="w-full p-2 border rounded" required>
+                    <button type="button" id="addConstraint" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+                </div>
+            </div>
+            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded">Solve</button>
+        </form>
+        <div id="result" class="mt-8 bg-gray-200 p-6 rounded shadow-md hidden">
+            <h2 class="text-xl font-bold mb-4">Solution:</h2>
+            <pre id="solution" class="bg-gray-800 text-white p-4 rounded"></pre>
+        </div>
+    </div>
+    <script>
+        document.getElementById('addConstraint').addEventListener('click', function() {
+            const div = document.createElement('div');
+            div.className = 'flex space-x-2';
+            div.innerHTML = '<input type="text" name="constraints[]" placeholder="e.g., x + y <= 10" class="w-full p-2 border rounded" required> <button type="button" class="removeConstraint bg-red-500 text-white px-4 py-2 rounded">Remove</button>';
+            document.getElementById('constraints').appendChild(div);
+        });
+
+        document.getElementById('constraints').addEventListener('click', function(e) {
+            if (e.target.classList.contains('removeConstraint')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+</body>
+</html>
